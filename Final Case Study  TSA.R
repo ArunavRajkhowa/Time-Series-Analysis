@@ -1,10 +1,8 @@
 library(forecast)
 library(fpp)
 
-setwd("D:\\IITK Data Analytics\\R\\Time-Series-Analysis\\")
+setwd("/Users/lalitsachan/Dropbox/March onwards/CBAP with R/Data/")
 
-#number of observations are low because of time period
-#Hence we should avoid complex algorithms coz overfitting occurs
 rain=read.csv("rain.csv")
 
 # converting to a time series data format
@@ -13,11 +11,7 @@ raints=ts(rain,start=c(1900))
 
 plot(raints)
 
-#exponential smoothing HoltWinters
 rainforecast=HoltWinters(raints,beta=F,gamma=F)
-# coefficient a -> forecast present
-# set alpha=0.9 and see the result. 
-# which is a better fit?? WHy?
 
 
 rainforecast
@@ -36,7 +30,7 @@ library(forecast)
 
 rainfuture=forecast:::forecast.HoltWinters(rainforecast,h=80)
 
-rainfuture #confidence bands gets wider into the future
+rainfuture
 plot(rainfuture)
 
 #The in-sample forecast errors are stored in the named element -residuals
@@ -68,15 +62,13 @@ plot(skirts)
 
 skirtforecast=HoltWinters(skirts,gamma=F)
 
-plot(skirtforecast) #bad model
-# if less patterns are there, TS models are usually bad
+plot(skirtforecast)
 
 
 skirtforecast
-
 skirtfuture=forecast:::forecast.HoltWinters(skirtforecast,h=20)
 
-plot(skirtfuture) #divergence of confidence level is more prominent here
+plot(skirtfuture)
 
 #Also we are not discussing in this session about variance of the residuals
 #those who are interested can read up on ARCH/GARCH models. Here our
@@ -107,16 +99,15 @@ plot(souvenirforecast)
 souvenirfuture=forecast:::forecast.HoltWinters(souvenirforecast,h=100)
 
 plot(souvenirfuture)
-#confidence levels get wider
+
 
 #ARIMA models have 3 parameters  and is generally written as ARIMA(p,d,q)
 
-#######SARIMA################
 auto.arima(souvenirts)
-#OUTPUTS  
+
 #ARIMA(2,0,0)(0,1,1)[12]
 
-#p=2 ,d=0, q=0 | P=0, D=1 , Q=1 | m=12
+#p=2 ,d=0, q=0 | P=1 , D=1 , Q=0 | m=12
 
 arimafit=arima(souvenirts,order=c(2,0,0),seasonal=c(0,1,1))
 
